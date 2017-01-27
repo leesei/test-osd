@@ -1,4 +1,5 @@
-> Issue fixed in OSD 2.3
+> For OSD #973, https://github.com/openseadragon/openseadragon/issues/973  
+> Issue fixed in OSD 2.3  
 
 Clone this repo and serve it via HTTP server (e.g. `ecstatic`, `python -m SimpleHTTPServer`).  
 Visit the page and enter the following snippets in console.

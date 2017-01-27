@@ -20,7 +20,7 @@ window.viewer = OpenSeadragon({
   tabIndex: '',
   animationTime: 0.5,
   blendTime: 0.1,
-  debugMode: true,
+  debugMode: false,
   immediateRender: true,
   showNavigator: true,
   navigatorSizeRatio: 0.2,
@@ -46,7 +46,7 @@ window.viewer = OpenSeadragon({
 viewer.addHandler('open', function () {
   console.log('opened');
   window.viewport = viewer.viewport;
-  window.tiledImage = viewer.world.getItemAt(0)
+  window.tiledImage = viewer.world.getItemAt(0);
   window.navigator = viewer.navigator;
 });
 

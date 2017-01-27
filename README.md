@@ -1,45 +1,27 @@
-> Issue fixed in OSD 2.3
-
 Clone this repo and serve it via HTTP server (e.g. `ecstatic`, `python -m SimpleHTTPServer`).  
-Visit the page and enter the following snippets in console.
 
 These are exposed to `window`:
 - viewer
 - viewport
 - tiledImage
 
+Check [`addOverlay()`](https://github.com/leesei/test-osd-rotate/blob/overlay/script.js#L76).
+
 ### Fail case
 
-```js
-viewport.zoomTo(tiledImage.imageToViewportZoom(2.0))
-// wait for 'view-updated'
-viewport.setRotation(0)
-// wait for 'view-updated'
-viewport.setRotation(44)
-```
+Mouse hover the red rect.
 
-The tiles do not fill canvas after these operations (the white canvas background  can be seen).
+A label is shown:
+- on the left of the screen for the very first time (`wrong-pos-1.png`)
+- shown with wrong placement (it seems) if I moved the image (`wrong-pos-2.png`)
 
-Resizing the window will fix the issue, and subsequent calls to rotation will not trigger the issue.
+### Expected case
 
-OSD 2.1.0 does not have this issue (change the `<script>` in `index.html`).
+Mouse hover the red rect.
 
-### Success case
+A label is shown on the middle of the image (`expected-pos.png`).
 
-Single paste and execute, without waiting for `view-updated`
+### Hot fix
 
-```js
-viewport.zoomTo(tiledImage.imageToViewportZoom(2.0))
-viewport.setRotation(0)
-viewport.setRotation(44)
-```
+Call `viewer.updateOverlay(rect.label)` after adding the label.
 
-### Success case
-
-Without `setRotation(0)`
-
-```js
-viewport.zoomTo(tiledImage.imageToViewportZoom(2.0))
-// wait for 'view-updated'
-viewport.setRotation(44)
-```

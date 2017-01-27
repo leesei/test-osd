@@ -20,7 +20,7 @@ window.viewer = OpenSeadragon({
   tabIndex: '',
   animationTime: 0.5,
   blendTime: 0.1,
-  debugMode: true,
+  debugMode: false,
   immediateRender: true,
   showNavigator: true,
   navigatorSizeRatio: 0.2,
@@ -46,8 +46,10 @@ window.viewer = OpenSeadragon({
 viewer.addHandler('open', function () {
   console.log('opened');
   window.viewport = viewer.viewport;
-  window.tiledImage = viewer.world.getItemAt(0)
+  window.tiledImage = viewer.world.getItemAt(0);
   window.navigator = viewer.navigator;
+
+  addOverlay();
 });
 
 function onViewChanged () {
@@ -69,6 +71,37 @@ function onViewChanged () {
     rotation: viewport.getRotation()
   };
   console.log('view-updated', viewInfo);
+}
+
+function addOverlay() {
+  var rect = document.createElement("div");
+  rect.className = 'border';
+  rect.addEventListener('mouseenter', function () {
+    rect.label.classList.remove('hidden');
+    viewer.addOverlay({
+        element: rect.label,
+        placement: OpenSeadragon.Placement.BOTTOM,
+        rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,
+        location: new OpenSeadragon.Point(0.5, 0.5)
+    });
+    // viewer.updateOverlay(rect.label);
+    console.log(rect.label);
+  });
+  rect.addEventListener('mouseleave', function () {
+    rect.label.classList.add('hidden');
+  });
+
+  var label = document.createElement("div");
+  label.className = 'overlay-label';
+  label.innerText = 'text123';
+  rect.label = label;
+
+  viewer.addOverlay({
+      element: rect,
+      placement: OpenSeadragon.Placement.BOTTOM,
+      rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,
+      location: new OpenSeadragon.Rect(0.4, 0.4, 0.2, 0.2)
+  });
 }
 
 viewer.addHandler('rotate', onViewChanged);
